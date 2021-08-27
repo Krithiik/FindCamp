@@ -3,7 +3,21 @@ const cities = require("./cities");
 const { places, descriptors } = require("./seedHelpers");
 const Campground = require("../models/campground");
 
-mongoose.connect("mongodb://localhost:27017/yelp-camp", {
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
+
+const dbUrl =
+  process.env.NODE_ENV !== "production"
+    ? "mongodb://localhost:27017/yelp-camp"
+    : process.env.DB_URL;
+
+const author =
+  process.env.NODE_ENV !== "production"
+    ? "612245b6d8146044140f9d6d"
+    : "6128ae32dfb24a0016f968ed";
+
+mongoose.connect(dbUrl, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useUnifiedTopology: true,
@@ -20,11 +34,11 @@ const sample = (array) => array[Math.floor(Math.random() * array.length)];
 
 const seedDB = async () => {
   await Campground.deleteMany({});
-  for (let i = 0; i < 350; i++) {
+  for (let i = 0; i < 150; i++) {
     const random1000 = Math.floor(Math.random() * 1000);
     const price = Math.floor(Math.random() * 20) + 10;
     const camp = new Campground({
-      author: "612245b6d8146044140f9d6d",
+      author: author,
       location: `${cities[random1000].city}, ${cities[random1000].state}`,
       title: `${sample(descriptors)} ${sample(places)}`,
       description:
@@ -43,8 +57,8 @@ const seedDB = async () => {
           filename: "Yelpcamp/sluz86pq6ejcjitovpbd",
         },
         {
-          url: "https://res.cloudinary.com/dhxie5cun/image/upload/v1629994333/YelpCamp/sluz86pq6ejcjitovpbd.jpg",
-          filename: "YelpCamp/sluz86pq6ejcjitovpbd",
+          url: "https://res.cloudinary.com/dhxie5cun/image/upload/v1629988164/Yelpcamp/default_img_1_tnc1d1.jpg",
+          filename: "YelpCamp/default_img_1_tnc1d1.jpg",
         },
       ],
     });
