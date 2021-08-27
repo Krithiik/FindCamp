@@ -1,6 +1,9 @@
-<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark py-4">
+<nav
+  id="mainNavbar"
+  class="navbar navbar-light sticky-top navbar-expand-lg px-5"
+>
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">YelpCamp</a>
+    <a class="navbar-brand fs-4 fw-bolder" href="/">Yelpcamp</a>
     <button
       class="navbar-toggler"
       type="button"
@@ -17,6 +20,23 @@
         <a class="nav-link" href="/">Home</a>
         <a class="nav-link" href="/campgrounds">Campgrounds</a>
         <a class="nav-link" href="/campgrounds/new">New Campground</a>
+      </div>
+      <div class="navbar-nav ms-auto">
+        <% if(!currentUser) {%>
+        <a class="nav-link" href="/login">
+          <i class="fa fa-solid fa-user my-auto"></i>
+          Login
+        </a>
+        <a class="nav-link" href="/register">
+          <i class="fa fa-solid fa-user-plus my-auto"></i>
+          Register
+        </a>
+        <% } else {%>
+        <a class="nav-link" href="/logout">
+          <i class="fas fa-sign-out-alt my-auto"></i>
+          Logout
+        </a>
+        <% } %>
       </div>
     </div>
   </div>
