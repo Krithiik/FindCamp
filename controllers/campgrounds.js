@@ -47,29 +47,39 @@ module.exports.createCampground = async (req, res, next) => {
 };
 
 module.exports.showCampground = async (req, res) => {
-  const campground = await Campground.findById(req.params.id)
-    .populate({
-      path: "reviews",
-      populate: {
-        path: "author",
-      },
-    })
-    .populate("author");
-  if (!campground) {
-    req.flash("error", "Cannot find that campground!");
-    return res.redirect("/campgrounds");
+  try {
+    const campground = await Campground.findById(req.params.id)
+      .populate({
+        path: "reviews",
+        populate: {
+          path: "author",
+        },
+      })
+      .populate("author");
+    if (!campground) {
+      req.flash("error", "Sorry, that campground does not exist!");
+      return res.redirect("/campgrounds");
+    }
+    res.render("campgrounds/show", { campground });
+  } catch (e) {
+    req.flash("error", "Sorry, that campground does not exist!");
+    res.redirect("/campgrounds");
   }
-  res.render("campgrounds/show", { campground });
 };
 
 module.exports.renderEditForm = async (req, res) => {
-  const { id } = req.params;
-  const campground = await Campground.findById(id);
-  if (!campground) {
-    req.flash("error", "Cannot find that campground!");
-    return res.redirect("/campgrounds");
+  try {
+    const { id } = req.params;
+    const campground = await Campground.findById(id);
+    if (!campground) {
+      req.flash("error", "Sorry, that campground does not exist!");
+      return res.redirect("/campgrounds");
+    }
+    res.render("campgrounds/edit", { campground });
+  } catch (e) {
+    req.flash("error", "Sorry, that campground does not exist!");
+    res.redirect("/campgrounds");
   }
-  res.render("campgrounds/edit", { campground });
 };
 
 module.exports.updateCampground = async (req, res) => {
