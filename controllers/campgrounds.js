@@ -99,7 +99,6 @@ module.exports.renderEditForm = async (req, res) => {
 
 module.exports.updateCampground = async (req, res) => {
   const { id } = req.params;
-  const options = { new: true };
   const imgs = req.files.map((f) => ({
     url: f.path,
     filename: f.filename,
@@ -120,7 +119,7 @@ module.exports.updateCampground = async (req, res) => {
     return res.redirect("/campgrounds/new");
   }
 
-  const campground = await Campground.findByIdAndUpdate(id, options, {
+  const campground = await Campground.findByIdAndUpdate(id, {
     ...req.body.campground,
   });
   campground.geometry = geoData.body.features[0].geometry;
