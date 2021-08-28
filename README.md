@@ -11,7 +11,9 @@ Feel free to share some of your own and comment on others!
 - Cluster and individual Map location
 - Authentication and authorization 
 - Admin controls
+- Timestamps
+- Flash messages
 - MongoDB backend for data persistence
 - Fuzzy search
-- Error handling with Async functions
+- Error handling in Async functions
 - Security against XSS and other attacks.  
