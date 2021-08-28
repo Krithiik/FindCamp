@@ -13,6 +13,7 @@ const methodOverride = require("method-override");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./models/user");
+const moment = require("moment");
 const mongoSanitize = require("express-mongo-sanitize");
 const helmet = require("helmet");
 const MongoDBStore = require("connect-mongo");
@@ -151,6 +152,7 @@ app.use((req, res, next) => {
   res.locals.currentUser = req.user;
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
+  res.locals.moment = moment;
   next();
 });
 
@@ -174,5 +176,5 @@ app.use((err, req, res, next) => {
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
-  console.log(`Serving on port ${port}gt`);
+  console.log(`Serving on port ${port}`);
 });

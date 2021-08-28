@@ -29,7 +29,7 @@ module.exports.createCampground = async (req, res, next) => {
     req.flash("error", "Invalid Location !!");
     return res.redirect("/campgrounds/new");
   }
-  if (req.files.length == 0) {
+  if (req.files.length <= 0) {
     req.flash("error", "Campground should have a image");
     return res.redirect("/campgrounds/new");
   }

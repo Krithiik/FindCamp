@@ -20,6 +20,7 @@ const CampgroundSchema = new Schema(
     location: String,
     price: Number,
     description: String,
+    createdAt: { type: Date, default: Date.now },
     geometry: {
       type: {
         type: String,
@@ -41,6 +42,9 @@ const CampgroundSchema = new Schema(
         ref: "Review",
       },
     ],
+  },
+  {
+    timestamps: true,
   },
   opts
 );

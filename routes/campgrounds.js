@@ -11,7 +11,18 @@ const multer = require("multer");
 const { storage } = require("../cloudinary");
 
 // multer configuration
-const upload = multer({ storage });
+const upload = multer({
+  storage: storage,
+  limits: {
+    fileSize: 2000000,
+  },
+  fileFilter(req, file, cb) {
+    if (!file.originalname.toLowerCase().match(/\.(png|jpg|jpeg)$/)) {
+      return cb(new Error("Please upload a image of type PNG ,JPEG OR JPG"));
+    }
+    cb(undefined, true);
+  },
+});
 
 const Campground = require("../models/campground");
 
