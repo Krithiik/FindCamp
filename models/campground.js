@@ -2,8 +2,6 @@ const mongoose = require("mongoose");
 const Review = require("./review");
 const Schema = mongoose.Schema;
 
-const opts = { toJSON: { virtuals: true } };
-
 const ImageSchema = new Schema({
   url: String,
   filename: String,
@@ -20,7 +18,6 @@ const CampgroundSchema = new Schema(
     location: String,
     price: Number,
     description: String,
-    createdAt: { type: Date, default: Date.now },
     geometry: {
       type: {
         type: String,
@@ -43,9 +40,9 @@ const CampgroundSchema = new Schema(
       },
     ],
   },
-  opts,
   {
     timestamps: true,
+    toJSON: { virtuals: true },
   }
 );
 

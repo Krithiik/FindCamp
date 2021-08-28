@@ -99,13 +99,31 @@ module.exports.renderEditForm = async (req, res) => {
 
 module.exports.updateCampground = async (req, res) => {
   const { id } = req.params;
+  const options = { new: true };
   const imgs = req.files.map((f) => ({
     url: f.path,
     filename: f.filename,
   }));
-  const campground = await Campground.findByIdAndUpdate(id, {
+  const geoData = await geocoder
+    .forwardGeocode({
+      query: req.body.campground.location,
+      limit: 1,
+    })
+    .send();
+  if (
+    !geoData ||
+    !geoData.body ||
+    !geoData.body.features ||
+    !geoData.body.features.length
+  ) {
+    req.flash("error", "Invalid Location !!");
+    return res.redirect("/campgrounds/new");
+  }
+
+  const campground = await Campground.findByIdAndUpdate(id, options, {
     ...req.body.campground,
   });
+  campground.geometry = geoData.body.features[0].geometry;
   campground.images.push(...imgs);
   await campground.save();
   if (req.body.deleteImages) {
