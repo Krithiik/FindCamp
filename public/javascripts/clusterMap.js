@@ -5,6 +5,7 @@ const map = new mapboxgl.Map({
   center: [-103.5917, 40.6699],
   zoom: 3,
 });
+console.log(campgrounds);
 
 map.on("load", () => {
   // Add a new source from our GeoJSON data and
@@ -93,6 +94,7 @@ map.on("load", () => {
   // description HTML from its properties.
   map.on("click", "unclustered-point", (e) => {
     const coordinates = e.features[0].geometry.coordinates.slice();
+    console.log(e.features[0]);
     const { popUpMarkup } = e.features[0].properties;
     // Ensure that if the map is zoomed out such that
     // multiple copies of the feature are visible, the
