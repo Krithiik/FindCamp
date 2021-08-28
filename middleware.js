@@ -30,7 +30,7 @@ module.exports.isCampgroundAuthor = async (req, res, next) => {
       req.flash("error", "Sorry, that campground does not exist!");
       return res.redirect("/campgrounds");
     }
-    if (!campground.author.equals(req.user._id)) {
+    if (!campground.author.equals(req.user._id) && !req.user.isAdmin) {
       req.flash("error", "You do not have permission to do that!");
       return res.redirect(`/campgrounds/${id}`);
     }
@@ -49,7 +49,7 @@ module.exports.isReviewAuthor = async (req, res, next) => {
       req.flash("error", "Sorry, that Review does not exist!");
       return res.redirect(`/campgrounds/${id}`);
     }
-    if (!review.author.equals(req.user._id)) {
+    if (!review.author.equals(req.user._id) && !req.user.isAdmin) {
       req.flash("error", "You do not have permission to do that!");
       return res.redirect(`/campgrounds/${id}`);
     }

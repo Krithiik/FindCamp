@@ -7,7 +7,7 @@ if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
 
-//process.env.NODE_ENV = "production";
+process.env.NODE_ENV = "production";
 const dbUrl =
   process.env.NODE_ENV !== "production"
     ? "mongodb://localhost:27017/yelp-camp"

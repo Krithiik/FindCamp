@@ -1,8 +1,7 @@
-const toggleBtn = document.querySelector("#showReviewForm");
-const reviewForm = document.querySelector("#reviewForm");
-const list = reviewForm.classList;
+const toggleBtn = document.querySelector("#toggler");
+const Form = document.querySelector("#hiddenForm");
+const list = Form.classList;
 toggleBtn.addEventListener("click", () => {
-  console.log("in");
   if (list.contains("isHidden")) {
     list.remove("isHidden");
   } else {

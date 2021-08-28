@@ -6,8 +6,14 @@ module.exports.renderRegister = (req, res) => {
 
 module.exports.register = async (req, res, next) => {
   try {
-    const { email, username, password } = req.body;
+    const { email, username, password, adminCode } = req.body;
     const user = new User({ email, username });
+    if (adminCode == process.env.ADMIN_KEY) {
+      user.isAdmin = true;
+    } else {
+      req.flash("error", "Incorret admin code!!");
+      return res.redirect("/register");
+    }
     const registeredUser = await User.register(user, password);
     req.login(registeredUser, (err) => {
       if (err) return next(err);

@@ -60,7 +60,8 @@
         </li>
         <li class="list-group-item">$<%= campground.price%>/night</li>
       </ul>
-      <% if( currentUser && campground.author.equals(currentUser._id)) {%>
+      <% if( (currentUser && campground.author.equals(currentUser._id)) ||
+      (currentUser && currentUser.isAdmin)) {%>
       <div class="card-body">
         <a
           class="card-link btn btn-info"
@@ -85,7 +86,7 @@
     <div id="map" class="showMap border border-dark"></div>
     <div>
       <% if(currentUser) {%>
-      <button id="showReviewForm" class="btn btn-info btn-sm m-3">
+      <button id="toggler" class="btn btn-info btn-sm m-3">
         Leave a Review
       </button>
       <% }else{ %>
@@ -98,10 +99,10 @@
     </div>
     <div>
       <form
-        id="reviewForm"
+        id="hiddenForm"
         action="/campgrounds/<%=campground._id%>/reviews"
         method="POST"
-        class="mb-3 isHidden validated-form"
+        class="mb-3 isHidden hiddenForm validated-form"
         novalidate
       >
         <fieldset class="starability-basic">
@@ -184,7 +185,8 @@
             <%= moment(review.createdAt).fromNow() %>
           </em>
           <p class="card-text"><%= review.body %></p>
-          <% if( currentUser && review.author.equals(currentUser._id)) {%>
+          <% if( currentUser && review.author.equals(currentUser._id) ||
+          currentUser && currentUser.isAdmin) {%>
           <form
             action="/campgrounds/<%=campground._id%>/reviews/<%=review._id%>?_method=DELETE"
             method="POST"
