@@ -16,6 +16,18 @@
 </div>
 
 <h1 class="text-center mb-5">All Campgrounds</h1>
+<form action="/campgrounds" method="GET" class="form-inline w-50 mx-auto my-4">
+  <div class="input-group">
+    <input
+      type="text"
+      name="search"
+      placeholder="campground search ...."
+      class="form-control"
+    />
+    <input type="submit" value="Search" class="btn btn-primary btn-sm" />
+  </div>
+</form>
+
 <% for (let campground of campgrounds){%>
 <div class="card mb-3 mx-auto" style="width: 80%">
   <div class="row g-0">

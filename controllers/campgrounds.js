@@ -5,8 +5,13 @@ const mapBoxToken = process.env.MAPBOX_TOKEN;
 const geocoder = mbxGeocoding({ accessToken: mapBoxToken });
 
 module.exports.index = async (req, res) => {
-  const campgrounds = await Campground.find({});
-  res.render("campgrounds/index", { campgrounds });
+  if (req.query.search) {
+    const foundCampgrounds = await Campground.fuzzySearch(req.query.search);
+    res.render("campgrounds/index", { campgrounds: foundCampgrounds });
+  } else {
+    const campgrounds = await Campground.find({});
+    res.render("campgrounds/index", { campgrounds });
+  }
 };
 
 module.exports.renderNewForm = (req, res) => {
