@@ -7,6 +7,10 @@ const geocoder = mbxGeocoding({ accessToken: mapBoxToken });
 module.exports.index = async (req, res) => {
   if (req.query.search) {
     const foundCampgrounds = await Campground.fuzzySearch(req.query.search);
+    if (foundCampgrounds.length <= 0) {
+      req.flash("error", "Sorry! we cannot find that campground");
+      res.redirect("/campgrounds");
+    }
     res.render("campgrounds/index", { campgrounds: foundCampgrounds });
   } else {
     const campgrounds = await Campground.find({});
