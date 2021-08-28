@@ -4,12 +4,18 @@ const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
 const mapBoxToken = process.env.MAPBOX_TOKEN;
 const geocoder = mbxGeocoding({ accessToken: mapBoxToken });
 
+function escapeRegex(text) {
+  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+}
+
 module.exports.index = async (req, res) => {
   if (req.query.search) {
-    const foundCampgrounds = await Campground.fuzzySearch(req.query.search);
+    escapeRegex(req.query.search);
+    const regex = new RegExp(escapeRegex(req.query.search), "gi");
+    const foundCampgrounds = await Campground.find({ title: regex });
     if (foundCampgrounds.length <= 0) {
-      req.flash("error", "Sorry! we cannot find that campground");
-      res.redirect("/campgrounds");
+      req.flash("error", "Sorry! we cannot find any matching campground ");
+      return res.redirect("/campgrounds");
     }
     res.render("campgrounds/index", { campgrounds: foundCampgrounds });
   } else {

@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const Review = require("./review");
 const Schema = mongoose.Schema;
-const mongoose_fuzzy_searching = require("mongoose-fuzzy-searching");
 
 const opts = { toJSON: { virtuals: true } };
 
@@ -63,7 +62,5 @@ CampgroundSchema.post("findOneAndDelete", async function (doc) {
     });
   }
 });
-
-CampgroundSchema.plugin(mongoose_fuzzy_searching, { fields: ["title"] });
 
 module.exports = mongoose.model("Campground", CampgroundSchema);
